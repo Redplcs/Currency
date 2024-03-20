@@ -1,0 +1,38 @@
+version: '3.4'
+
+services:
+    converter:
+        image: converter
+        build:
+            context: ./Converter
+            dockerfile: Converter.Main/Dockerfile
+
+    crawler:
+        image: crawler
+        build:
+            context: ./Crawler
+            dockerfile: Crawler.Main/Dockerfile
+        ports:
+            - 7181:5294
+
+    storage:
+        image: storage
+        build:
+            context: ./Storage
+            dockerfile: Storage.Main/Dockerfile
+        ports:
+            - 7113:5093
+
+    rabbitmq:
+        image: masstransit/rabbitmq
+        ports:
+            - 5672:5672
+            - 15672:15672
+
+    postgresql:
+        image: postgres
+        restart: always
+        shm_size: 128mb
+        environment:
+            POSTGRES_DB: CurrencyDb
+            POSTGRES_PASSWORD: password
