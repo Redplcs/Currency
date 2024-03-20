@@ -1,6 +1,22 @@
 version: '3.4'
 
 services:
+    rabbitmq:
+        image: masstransit/rabbitmq
+        ports:
+            - 5672:5672
+            - 15672:15672
+
+    postgresql:
+        image: postgres
+        restart: always
+        shm_size: 128mb
+        environment:
+            POSTGRES_DB: CurrencyDb
+            POSTGRES_PASSWORD: password
+        ports:
+            - 5432:5432
+
     converter:
         image: converter
         build:
@@ -22,17 +38,3 @@ services:
             dockerfile: Storage.Main/Dockerfile
         ports:
             - 7113:5093
-
-    rabbitmq:
-        image: masstransit/rabbitmq
-        ports:
-            - 5672:5672
-            - 15672:15672
-
-    postgresql:
-        image: postgres
-        restart: always
-        shm_size: 128mb
-        environment:
-            POSTGRES_DB: CurrencyDb
-            POSTGRES_PASSWORD: password
