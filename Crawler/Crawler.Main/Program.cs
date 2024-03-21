@@ -1,3 +1,4 @@
+using System.Text;
 using Crawler.Core.CentralBank;
 using Crawler.Database;
 using Hangfire;
@@ -10,6 +11,8 @@ public class Program
 {
     public static void Main(string[] args)
     {
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
         var builder = WebApplication.CreateBuilder(args);
 
         string? hangfireConnectionString = builder.Configuration.GetConnectionString("Hangfire");
