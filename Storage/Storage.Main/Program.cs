@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using Storage.Database;
+
 namespace Storage.Main;
 
 public class Program
@@ -6,6 +9,12 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        builder.Services.AddDbContext<StorageContext>(options =>
+        {
+            options.UseNpgsql(builder.Configuration.GetConnectionString("Currency"));
+        });
+
+        builder.Services.AddDateOnlyTimeOnlyStringConverters();
         builder.Services.AddControllers();
 
         var app = builder.Build();
