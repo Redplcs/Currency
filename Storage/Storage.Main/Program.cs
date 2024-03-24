@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Storage.Core;
 using Storage.Database;
 
 namespace Storage.Main;
@@ -16,8 +17,15 @@ public class Program
 
         builder.Services.AddDateOnlyTimeOnlyStringConverters();
         builder.Services.AddControllers();
+        builder.Services.AddSingleton<ICurrencyRepository, CurrencyRepository>();
+        builder.Services.AddSingleton<ICurrencyExchangeRateRepository, CurrencyExchangeRateRepository>();
 
         var app = builder.Build();
+
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
+        }
 
         app.UseHttpsRedirection();
         app.UseAuthorization();

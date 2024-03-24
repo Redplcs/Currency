@@ -22,12 +22,18 @@ services:
         build:
             context: ./Converter
             dockerfile: Converter.Main/Dockerfile
+        depends_on:
+            - postgresql
+            - rabbitmq
 
     crawler:
         image: crawler
         build:
             context: ./Crawler
             dockerfile: Crawler.Main/Dockerfile
+        depends_on:
+            - postgresql
+            - rabbitmq
         ports:
             - 7181:5294
 
@@ -36,5 +42,8 @@ services:
         build:
             context: ./Storage
             dockerfile: Storage.Main/Dockerfile
+        depends_on:
+            - postgresql
+            - rabbitmq
         ports:
             - 7113:5093
