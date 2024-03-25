@@ -1,4 +1,5 @@
 using System.Text;
+using Crawler.Core;
 using Crawler.Core.CentralBank;
 using Crawler.Database;
 using Hangfire;
@@ -43,12 +44,18 @@ public class Program
         builder.Services.AddHangfireServer();
         builder.Services.AddControllers();
 
+        builder.Services.AddTransient<CrawlerService>();
+
         var app = builder.Build();
 
         app.UseHttpsRedirection();
         app.UseAuthorization();
 
         app.MapControllers();
+
+        app.Services
+            .GetRequiredService<IRecurringJobManager>()
+            .AddOrUpdate("FetchCurrencies", () => app.Services.GetRequiredService<CrawlerService>().Fetch(), Cron.Daily);
 
         app.Run();
     }
