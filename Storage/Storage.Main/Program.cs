@@ -17,8 +17,8 @@ public class Program
 
         builder.Services.AddDateOnlyTimeOnlyStringConverters();
         builder.Services.AddControllers();
-        builder.Services.AddSingleton<ICurrencyRepository, CurrencyRepository>();
-        builder.Services.AddSingleton<ICurrencyExchangeRateRepository, CurrencyExchangeRateRepository>();
+        builder.Services.AddScoped<ICurrencyRepository, CurrencyRepository>();
+        builder.Services.AddScoped<ICurrencyExchangeRateRepository, CurrencyExchangeRateRepository>();
 
         var app = builder.Build();
 

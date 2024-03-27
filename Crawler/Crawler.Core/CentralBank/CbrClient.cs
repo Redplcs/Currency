@@ -10,11 +10,11 @@ public class CbrClient(HttpClient client)
 
     public async Task<IEnumerable<CurrencyQuote>> GetQuotesAsync(DateOnly? date)
     {
-        Stream responseStream = await _client.GetStreamAsync(date is not null ?
+        string response = await _client.GetStringAsync(date is not null ?
             @$"/scripts/XML_daily.asp?date_req={date:dd/MM/yyyy}" :
             @"/scripts/XML_daily.asp");
 
-        return XDocument.Load(responseStream).Descendants("Valute").Select(item =>
+        return XDocument.Load(response).Descendants("Valute").Select(item =>
         {
             return new CurrencyQuote
             {
@@ -31,9 +31,9 @@ public class CbrClient(HttpClient client)
 
     public async Task<IEnumerable<CurrencyDetails>> GetDetailsAsync()
     {
-        Stream responseStream = await _client.GetStreamAsync(@"/scripts/XML_valFull.asp");
+        string response = await _client.GetStringAsync(@"/scripts/XML_valFull.asp");
 
-        return XDocument.Load(responseStream).Descendants("Item").Select(item =>
+        return XDocument.Load(response).Descendants("Item").Select(item =>
         {
             var details = new CurrencyDetails
             {

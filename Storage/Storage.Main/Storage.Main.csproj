@@ -17,6 +17,11 @@
 		<ProjectReference Include="..\Storage.Core\Storage.Core.csproj" />
 		<ProjectReference Include="..\Storage.Database\Storage.Database.csproj" />
 		<ProjectReference Include="..\..\ExchangeData\ExchangeTypes\ExchangeTypes.csproj" />
+
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.3">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 	</ItemGroup>
 
 </Project>
