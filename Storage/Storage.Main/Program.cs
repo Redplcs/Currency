@@ -32,6 +32,12 @@ public class Program
 
         app.MapControllers();
 
+        using (var scope = app.Services.CreateScope())
+        {
+            var context = scope.ServiceProvider.GetRequiredService<StorageContext>();
+            context.Database.Migrate();
+        }
+
         app.Run();
     }
 }

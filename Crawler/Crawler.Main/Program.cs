@@ -53,6 +53,12 @@ public class Program
 
         app.MapControllers();
 
+        using (var scope = app.Services.CreateScope())
+        {
+            var context = scope.ServiceProvider.GetRequiredService<HangfireContext>();
+            context.Database.Migrate();
+        }
+
         app.Services
             .GetRequiredService<IRecurringJobManager>()
             .AddOrUpdate("FetchCurrencies", () => app.Services.GetRequiredService<CrawlerService>().Fetch(), Cron.Daily);
